@@ -40,7 +40,7 @@
                 const dados = await response.json();
 
                 if (response.ok) {
-                    const linkFinal = `/${dados.url_encurtada}`;
+                    const linkFinal = `https://shorting-url.onrender.com/${dados.url_encurtada}`;
                     resDiv.style.display = 'block';
                     resDiv.innerHTML = `<strong>Link encurtado:</strong><br><a href="${linkFinal}" target="_blank">${linkFinal}</a>`;
                 } else {
