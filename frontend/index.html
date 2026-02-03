@@ -31,7 +31,7 @@
             const resDiv = document.getElementById('resultado');
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/shorten', {
+                const response = await fetch('/shorten', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ url_original: urlLonga })
@@ -40,7 +40,7 @@
                 const dados = await response.json();
 
                 if (response.ok) {
-                    const linkFinal = `http://127.0.0.1:8000/${dados.url_encurtada}`;
+                    const linkFinal = `/${dados.url_encurtada}`;
                     resDiv.style.display = 'block';
                     resDiv.innerHTML = `<strong>Link encurtado:</strong><br><a href="${linkFinal}" target="_blank">${linkFinal}</a>`;
                 } else {
@@ -56,7 +56,7 @@
 
     try {
         // Faz a chamada para a rota que criamos anteriormente
-        const response = await fetch(`http://127.0.0.1:8000/stats/${codigo}`);
+        const response = await fetch(`/stats/${codigo}`);
         const data = await response.json();
 
         if (response.ok) {
