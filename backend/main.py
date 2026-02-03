@@ -17,7 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from routes import router
+from backend.routes import router
 
 app.include_router(router)
 
