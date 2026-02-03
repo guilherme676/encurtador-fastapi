@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Meu Encurtador de URL</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding: 50px; background: #f4f4f9; }
+        .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 400px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        #resultado { margin-top: 20px; padding: 10px; background: #e9ecef; border-radius: 4px; word-break: break-all; display: none; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Encurtador de URL 🚀</h2>
+        <input type="text" id="urlInput" placeholder="Cole sua URL longa aqui (ex: https://google.com)">
+        <button onclick="encurtar()">Encurtar Link</button>
+        <div id="resultado"></div>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+<h3>Consultar Cliques 📊</h3>
+<input type="text" id="statsInput" placeholder="Cole o código (ex: OqpGhp)">
+<button onclick="verCliques()" style="background: #28a745;">Ver Estatísticas</button>
+<div id="resStats" style="margin-top: 15px; display: none; padding: 10px; background: #d4edda; border-radius: 4px;"></div>
+    </div>
+
+    <script>
+        async function encurtar() {
+            const urlLonga = document.getElementById('urlInput').value;
+            const resDiv = document.getElementById('resultado');
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/shorten', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url_original: urlLonga })
+                });
+
+                const dados = await response.json();
+
+                if (response.ok) {
+                    const linkFinal = `http://127.0.0.1:8000/${dados.url_encurtada}`;
+                    resDiv.style.display = 'block';
+                    resDiv.innerHTML = `<strong>Link encurtado:</strong><br><a href="${linkFinal}" target="_blank">${linkFinal}</a>`;
+                } else {
+                    alert("Erro ao encurtar: " + JSON.stringify(dados.detail));
+                }
+            } catch (err) {
+                alert("Erro ao conectar com o servidor. Verifique se o FastAPI está rodando!");
+            }
+        }
+        async function verCliques() {
+    const codigo = document.getElementById('statsInput').value;
+    const resStats = document.getElementById('resStats');
+
+    try {
+        // Faz a chamada para a rota que criamos anteriormente
+        const response = await fetch(`http://127.0.0.1:8000/stats/${codigo}`);
+        const data = await response.json();
+
+        if (response.ok) {
+            resStats.style.display = 'block';
+            resStats.innerHTML = `
+                <strong>URL:</strong> ${data.dados.url_original}<br>
+                <strong>Total de Cliques:</strong> ${data.dados.cliques}
+            `;
+        } else {
+            alert("Erro: " + data.detail);
+        }
+    } catch (err) {
+        alert("Erro ao conectar com o servidor.");
+    }
+}
+    </script>
+</body>
+</html>
