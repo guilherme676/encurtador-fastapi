@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-import models  
+import models
 from models import db as engine 
 from routes import router
 from fastapi.middleware.cors import CORSMiddleware
