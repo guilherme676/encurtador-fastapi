@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-import models
-from models import db as engine 
-from routes import router
+from backend import models
+from backend.models import db as engine 
+from backend.routes import router
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import uvicorn

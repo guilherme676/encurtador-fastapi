@@ -2,8 +2,8 @@ import string
 import random
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-import models, schemas
-from models import SessionLocal, UrlShorting
+from backend import models, schemas
+from backend.models import SessionLocal, UrlShorting
 from fastapi.responses import RedirectResponse
 
 router = APIRouter()
